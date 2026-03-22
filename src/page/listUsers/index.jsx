@@ -19,6 +19,15 @@ function ListUsers() {
     getUsers();
   }, []);
 
+
+  async function deleteUsers(id) {
+    await api.delete(`/user/${id}`)
+
+    const upadateUsers = users.filter( user => user.id !== id)
+
+    setUsers(upadateUsers)
+  }
+
   return (
     <Container>
       <TopBackground /> 
@@ -27,19 +36,23 @@ function ListUsers() {
      
      <ContainerUsers>
       {users.map((user) => (
-        <CardUsers key={user.id}>
-          <AvatarUser />
-        <div >
-          <p>{user.name}</p>
-          <p>{user.email}</p>
+        <CardUsers key={user._id}>
+          <AvatarUser  src={`https://ui-avatars.com/api/?name=${user.name}`}
+
+
+ />
+        <div>
+          <h3>{user.name}</h3>
           <p>{user.age}</p>
+          <p>{user.email}</p>
+          
         </div>
-        <TrashIcon src= {Trash} alt="Icone-lixo"/>
+        <TrashIcon onClick={() => deleteUsers(user._id)} src= {Trash} alt="Icone-lixo"/>
         </CardUsers>
       ))}
       </ContainerUsers>
 
-      <Button type="bun" theme="primary" onClick={() => navigate("/")}>
+      <Button type="butonn" onClick={() => navigate("/")}>
         Voltar
       </Button>
     </Container>
